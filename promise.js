@@ -111,7 +111,7 @@ new Promise( resolve => {
 console.log('start');
  let Promise = new Promise(resolve => {
      setTimeout(() => {
-         console.log('the promise fulfiled');
+         console.log('the promise fulfilled');
          resolve('hello world');
 },1000);
  });
@@ -122,7 +122,12 @@ setTimeout(() => {
 });
 }, 3000);
 
+//先输出start ，过一秒输出 the promise fufilled,再过2秒输出hello world
 
+
+//也就是说我们在任意一个地方生成一个promise对象之后，我们操作如果是一个队列式的存在，我们可以把它作为一个变量在其他地方调用。
+//不管前面的promise是完成了还是没有完成，队列都会按照固定的事件顺序去执行，如果没有完成
+//就会按照顺序继续去完成，如果已完成，后面追加的then，也可以调用前面的promise返回的值；
 
 
 
