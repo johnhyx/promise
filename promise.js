@@ -41,3 +41,88 @@
 //多个回调之间难以建立联系。
 
 
+//promise产生
+new Promise(
+    /*执行器*/
+    function () {
+        //一段好事很长的异步操作
+        resolve(); //数据处理完成
+        reject(); //数据处理出错
+    }
+).then(function () {
+    //成功，下一步
+},function () {
+    //失败，做相应处理
+});
+
+//将一个执行时间很长的异步操作放在执行器中，当成功之后就执行resolve()方法，失败则执行reject()方法；
+
+//promise是一个代理对象，它和原来要进行的操作并无关系。
+//通过一个回调，避免更多的回调
+//promise三个状态:
+// pending初始化状态
+// fulfilled操作成功(调用了resolve)
+// reject操作失败（调用了reject）
+
+//Promise状态发生改变，就会触发.then()里的响应函数来做处理后续的步骤；
+//promise的状态一经改变，就不会再变
+
+//promise的实例一经创建，执行器就会立即执行
+//声明实例，生成一个执行器，然后生成一个任务队列，灭一个then就会返回一个新的promise实例，
+// 当执行器执行完毕，开始去判断状态，把状态改变为成功或者是失败，接着就是去调用then里面的对应处理函数
+//然后一个then处理完了之后，就会接着一个then，一直到所有的都处理完；
+
+
+//实例1：
+console.log('here we go');
+new Promise( resolve => {
+    setTimeout( () => {
+        resolve('hello');
+},2000);
+}).then( value => {
+    console.log(value + 'world');
+});
+//结果先输出 here we go 在过两秒输出 hello world
+
+//实例2：
+console.log('here we go');
+new Promise( resolve => {
+    setTimeout( () => {
+    resolve('hello');
+},2000);
+}).then( value => {
+    console.log(value);
+    return new Promise( resolve => {
+        setTimeout( () => {
+            resolve('world')
+},2000);
+    })
+}).then({
+    console.log(value + ' world');
+});
+//结果先输出here we go 再过两秒输出 hello，再过两秒输出 world world
+
+//连续多个回调函数，promise才会有比较大的作用
+
+
+//在一个promise完成之后，我们再.then()会怎样；
+//实例3：
+
+console.log('start');
+ let Promise = new Promise(resolve => {
+     setTimeout(() => {
+         console.log('the promise fulfiled');
+         resolve('hello world');
+},1000);
+ });
+
+setTimeout(() => {
+    promise.then( value => {
+        console.log(value);
+});
+}, 3000);
+
+
+
+
+
