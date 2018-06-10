@@ -129,5 +129,43 @@ setTimeout(() => {
 //不管前面的promise是完成了还是没有完成，队列都会按照固定的事件顺序去执行，如果没有完成
 //就会按照顺序继续去完成，如果已完成，后面追加的then，也可以调用前面的promise返回的值；
 
+//实例4：(then里面不返回promise)
+console.log('here we go');
+new Promise( resolve => {
+    setTimeout( () => {
+    resolve('hello');
+},2000);
+})
+    .then( value => {
+        console.log(value);
+        console.log('everyone');
+    (function () {
+        return new Promise( resolve => {
+            setTimeout( () => {
+            console.log('MR');
+            resolve('world');
+    },2000);
+        });
+    }())
+return false
+})
+.then({
+    console.log(value + ' world');
+});
+
+//在promise里面，我我们如果不返回上一个执行完成的promise实例，他就会默认去执行下一个环节
+//就算返回false，也不会影响到下一级的执行。
+//如果不传值返回时，会自动返回一个undefined。
+
+//.then函数的执行效果：
+//1.then()首先支持两个函数作为参数，分别代表的fulfilled和rejected两个状态下的响应函数。
+//2.then()返回一个新的promise实例，所以他是可以链式调用的，一个then后面又接着下一个then；
+//当前面的promise状态改变是，then()会根据其最终状态，选择特定的状态响应函数执行。
+//状态响应函数可以返回新的promise，或者其他的值或者不返回值(undefinde)；
+//如果返回的是新的promise，那么下一级的.then()会在新promise状态改变之后执行；
+//如果返回的是其他任何值，则会立即执行下一届then()；
 
 
+//then的嵌套问题(then里面有then的情况)
+//因为.then()返回的还是promise实例，所以就会等里面所有的.then()执行完之后，再去实行外面的；
+//
