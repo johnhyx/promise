@@ -168,4 +168,23 @@ return false
 
 //then的嵌套问题(then里面有then的情况)
 //因为.then()返回的还是promise实例，所以就会等里面所有的.then()执行完之后，再去实行外面的；
-//
+//https://blog.csdn.net/kingppy/article/details/50487814    promise中的一些反模式
+
+//promise的错误处理
+//promise会自动捕获内部异常，并交给rejected响应函数处理
+//实例：
+    console.log('here we go');
+    new Promise( resolve => {
+        setTimeout (() => {
+            throw new Error('bye');
+},2000);
+    })
+    .then( value => {
+        console.log(value + 'world');
+})
+    .catch (error => {
+         console.log('Error', error.massage);
+});
+//更加推荐使用catch，更加清晰好读，catch依然会返回一个promise实例
+
+
