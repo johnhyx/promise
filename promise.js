@@ -41,7 +41,7 @@
 //多个回调之间难以建立联系。
 
 
-//promise产生
+//promise产生出现
 new Promise(
     /*执行器*/
     function () {
